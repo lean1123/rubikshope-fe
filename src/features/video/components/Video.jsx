@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import { useNavigate } from "react-router-dom";
 
 Video.propTypes = {
   video: PropTypes.object,
@@ -24,6 +25,12 @@ const useStyles = makeStyles((theme) => ({
 function Video({ video }) {
   const classes = useStyles();
 
+  const navigate = useNavigate();
+
+  const handleClickVideo = () => {
+    navigate(`${video.videoID}`);
+  };
+
   const handleImageUrl = () => {
     if (!video.poster) {
       return "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg";
@@ -35,7 +42,7 @@ function Video({ video }) {
   };
 
   return (
-    <Box padding={1}>
+    <Box padding={1} onClick={handleClickVideo}>
       <Card sx={{ maxWidth: 345 }}>
         <CardMedia
           component="img"
