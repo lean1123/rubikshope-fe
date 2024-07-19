@@ -1,14 +1,14 @@
 import axios from "axios";
 
 const AdminAxiosClient = axios.create({
-  baseURL: "http://localhost:8888/admin/",
+  baseURL: "http://localhost:3333/",
   headers: {
     "Content-Type": "application/json",
   },
 });
 
 // Add a request interceptor
-axios.interceptors.request.use(
+AdminAxiosClient.interceptors.request.use(
   function (config) {
     // Do something before request is sent
     return config;
@@ -20,7 +20,7 @@ axios.interceptors.request.use(
 );
 
 // Add a response interceptor
-axios.interceptors.response.use(
+AdminAxiosClient.interceptors.response.use(
   function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data

@@ -2,12 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Box, Tab, Tabs } from "@mui/material";
 
-VideoSort.propTypes = {
+ProductSort.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
 };
 
-function VideoSort({ currentValue, onChange }) {
+function ProductSort({ currentValue, onChange }) {
   const handleOnchange = (event, newValue) => {
     console.log(currentValue);
     if (onChange) onChange(newValue);
@@ -27,4 +27,4 @@ function VideoSort({ currentValue, onChange }) {
   );
 }
 
-export default VideoSort;
+export default ProductSort;

@@ -3,9 +3,17 @@ import {
   Logout,
   PersonAdd,
   Settings,
+  ShoppingCart,
 } from "@mui/icons-material";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
-import { Avatar, Divider, ListItemIcon, Menu, MenuItem } from "@mui/material";
+import {
+  Avatar,
+  Badge,
+  Divider,
+  ListItemIcon,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -17,11 +25,12 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import Login from "../../features/auth/components/login/Login";
 import Register from "../../features/auth/components/register/Register";
 import styles from "./styles.module.css";
 import { logout } from "../../features/auth/AuthSlice";
+import { cartItemsCounter } from "../../features/cart/CartSelector";
 
 export default function Header() {
   const [isLogin, setIsLogin] = React.useState(true);
@@ -32,9 +41,13 @@ export default function Header() {
 
   const openMenu = Boolean(anchorEl);
 
-  const isLoggedInUser = useSelector((state) => state.users.current);
+  const isLoggedInUser = useSelector((state) => state.users.current) || {};
 
-  const isLoggedin = !!isLoggedInUser.id;
+  const isLoggedin = !!isLoggedInUser.userID;
+
+  const cartItemsCount = useSelector(cartItemsCounter);
+
+  const navigate = useNavigate();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -78,7 +91,7 @@ export default function Header() {
             </Link>
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Video Manager Admin App
+            Rubik Shop
           </Typography>
           <NavLink className={styles.link} to="/">
             <Button color="inherit">Home</Button>
@@ -86,12 +99,20 @@ export default function Header() {
           <NavLink className={styles.link} to="/categories">
             <Button color="inherit">Category</Button>
           </NavLink>
-          <NavLink className={styles.link} to="/videos">
-            <Button color="inherit">Video</Button>
+          <NavLink className={styles.link} to="/products">
+            <Button color="inherit">Products</Button>
           </NavLink>
-          <NavLink className={styles.link} to="/searchPagination">
-            <Button color="inherit">Search</Button>
-          </NavLink>
+
+          <IconButton
+            size="large"
+            color="inherit"
+            onClick={() => navigate("/cart")}
+          >
+            <Badge badgeContent={cartItemsCount} color="error">
+              <ShoppingCart />
+            </Badge>
+          </IconButton>
+
           {!isLoggedin && (
             <Button color="inherit" onClick={handleClickOpen}>
               Log In

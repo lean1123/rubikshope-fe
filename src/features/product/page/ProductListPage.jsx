@@ -1,26 +1,38 @@
-import { Box, Container, Grid, Paper, TablePagination } from "@mui/material";
+import {
+  Box,
+  Container,
+  createTheme,
+  Grid,
+  Paper,
+  TablePagination,
+} from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import queryString from "query-string";
 import React, { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import VideoApi from "../../../api/admin/video/VideoApi";
+import ProductApi from "../../../api/admin/product/ProductApi";
 import FilterViewer from "../components/FilterViewer";
-import VideoFilters from "../components/VideoFilters";
-import VideoList from "../components/VideoList";
-import VideoSkeletonList from "../components/VideoSkeletonList";
-import VideoSort from "../components/VideoSort";
+import ProductFilters from "../components/ProductFilter";
+import ProductList from "../components/ProductList";
+import ProductSort from "../components/ProductSort";
+import ProductSkeletons from "../components/VideoSkeletonList";
+import Search from "../components/Search";
+
+const theme = createTheme();
 
 const useStyles = makeStyles(() => ({
   root: {},
   left: {
     width: "250px",
+    padding: theme.spacing(0, 1.5),
+    borderRight: `1px solid ${theme.palette.grey[300]}`,
   },
   right: {
     flex: "1 1 0",
   },
 }));
 
-function VideoListPage() {
+function ProductListPage() {
   // Muc dich: Dong bo filter tren url
   const navigate = useNavigate();
   const location = useLocation();
@@ -34,12 +46,11 @@ function VideoListPage() {
       page: Number.parseInt(params.page) || 0,
       size: Number.parseInt(params.size) || 9,
       sortDirector: params.sortDirector || "asc",
-      isActive: params.isActive === "true",
     };
   }, [location.search]);
 
   const classes = useStyles();
-  const [videos, setVideos] = useState([]);
+  const [products, setProducts] = useState([]);
 
   const [loading, setLoading] = useState(true);
 
@@ -80,15 +91,15 @@ function VideoListPage() {
   useEffect(() => {
     (async () => {
       try {
-        const videoApi = new VideoApi();
+        const productApi = new ProductApi();
 
-        const { data } = await videoApi.searchPagination(queryParams);
+        const { data } = await productApi.searchPagination(queryParams);
 
         console.log("Params: ", queryParams);
 
-        console.log(data);
+        console.log("Data", data);
 
-        setVideos(data.data.content);
+        setProducts(data.data.content);
         setTotalElements(data.data.totalElements);
       } catch (error) {
         console.log(error);
@@ -149,13 +160,34 @@ function VideoListPage() {
     });
   };
 
+  const handleSearchFormSubmit = (value) => {
+    const params = {
+      ...queryParams,
+      searchValue: value,
+    };
+
+    navigate({
+      pathname: location.pathname,
+      search: queryString.stringify(params),
+    });
+  };
+
   return (
     <Box>
       <Container>
+        <Grid
+          container
+          p={4}
+          spacing={2}
+          justifyContent="end"
+          alignItems="center"
+        >
+          <Search onSubmit={handleSearchFormSubmit} />
+        </Grid>
         <Grid container spacing={1}>
           <Grid item className={classes.left}>
             <Paper elevation={0}>
-              <VideoFilters
+              <ProductFilters
                 filters={queryParams}
                 onChange={handleFiltersChange}
               />
@@ -163,15 +195,15 @@ function VideoListPage() {
           </Grid>
           <Grid item className={classes.right}>
             <Paper elevation={0}>
-              <VideoSort
+              <ProductSort
                 currentValue={queryParams.sortDirector}
                 onChange={handleSortChange}
               />
               <FilterViewer filters={queryParams} onChange={handleFilterView} />
               {loading ? (
-                <VideoSkeletonList length={videos.length} />
+                <ProductSkeletons length={products.length} />
               ) : (
-                <VideoList data={videos} />
+                <ProductList data={products} />
               )}
             </Paper>
           </Grid>
@@ -204,4 +236,4 @@ function VideoListPage() {
   );
 }
 
-export default VideoListPage;
+export default ProductListPage;

@@ -10,7 +10,7 @@ export const register = createAsyncThunk("/register", async (payload) => {
 
   // Save data to localstorage
   localStorage.setItem("jwt", data.jwt);
-  localStorage.setItem("user", newUser);
+  localStorage.setItem("user", JSON.stringify(newUser));
 
   return newUser;
 });
@@ -22,10 +22,8 @@ export const login = createAsyncThunk("/login", async (payload) => {
 
   const newUser = data.data.data;
 
-  console.log(newUser);
-
   // Save data to localstorage
-  localStorage.setItem("jwt", JSON.stringify(data.jwt));
+  localStorage.setItem("jwt", data.jwt);
   localStorage.setItem("user", JSON.stringify(newUser));
 
   return newUser;

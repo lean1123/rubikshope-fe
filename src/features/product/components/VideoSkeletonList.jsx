@@ -2,11 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Box, Grid, Skeleton } from "@mui/material";
 
-VideoSkeletonList.propTypes = {
+ProductSkeletons.propTypes = {
   length: PropTypes.number,
 };
 
-function VideoSkeletonList({ length }) {
+function ProductSkeletons({ length }) {
   return (
     <Box>
       <Grid container>
@@ -24,4 +24,4 @@ function VideoSkeletonList({ length }) {
   );
 }
 
-export default VideoSkeletonList;
+export default ProductSkeletons;

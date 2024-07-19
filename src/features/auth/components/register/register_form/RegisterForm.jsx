@@ -23,22 +23,26 @@ function RegisterForm(props) {
 
   // Validate rule
   const schema = yup.object().shape({
-    firstName: yup.string().required("First Name is required"),
-    lastName: yup.string().required("Last Name is required"),
+    fullName: yup.string().required("Full Name is required"),
     email: yup.string().email("Invalid email").required("Email is required"),
     password: yup
       .string()
       .required("Password is required")
       .min(6, "Password must be at least 6 characters"),
+    retypePassword: yup
+      .string()
+      .required("Retype password is required")
+      .min(6, "Retype password must be at least 6 characters"),
+    address: yup.string().required("Address is required"),
   });
 
   const form = useForm({
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      fullName: "",
       email: "",
       password: "",
-      retypePassowrd: "",
+      retypePassword: "",
+      address: "",
     },
     resolver: yupResolver(schema),
   });
@@ -83,29 +87,15 @@ function RegisterForm(props) {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                  {...form.register("firstName")}
-                  error={!!form.formState.errors.firstName}
-                  helperText={form.formState.errors.firstName?.message}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
+                  id="fullName"
+                  label="Full Name"
+                  name="fullName"
                   autoComplete="family-name"
-                  {...form.register("lastName")}
+                  {...form.register("fullName")}
                   error={!!form.formState.errors.lastName}
                   helperText={form.formState.errors.lastName?.message}
                 />
@@ -146,7 +136,19 @@ function RegisterForm(props) {
                   type="password"
                   id="retypePassword"
                   autoComplete="new-password"
-                  {...form.register("password")}
+                  {...form.register("retypePassword")}
+                  error={!!form.formState.errors.password}
+                  helperText={form.formState.errors.password?.message}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="address"
+                  label="Address"
+                  id="address"
+                  {...form.register("address")}
                   error={!!form.formState.errors.password}
                   helperText={form.formState.errors.password?.message}
                 />

@@ -3,7 +3,7 @@ import { Box, CircularProgress, Typography, createTheme } from "@mui/material";
 import { Feed, RemoveRedEye } from "@mui/icons-material";
 import { makeStyles } from "@mui/styles";
 
-VideoInfo.propTypes = {
+ProductInfo.propTypes = {
   video: PropTypes.object,
 };
 const theme = createTheme();
@@ -34,10 +34,10 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function VideoInfo({ video = {} }) {
+function ProductInfo({ product = {} }) {
   const classes = useStyles();
 
-  if (Object.keys(video).length === 0) {
+  if (Object.keys(product).length === 0) {
     return (
       <Box component="div" className={classes.loadingBox}>
         <CircularProgress />
@@ -46,16 +46,16 @@ function VideoInfo({ video = {} }) {
   }
 
   const {
-    title,
+    productName,
     description,
-    views,
+    unitPrice,
     category: { categoryName },
-  } = video;
+  } = product;
 
   return (
     <Box className={classes.root}>
       <Typography component="h1" variant="h4">
-        {title}
+        {productName}
       </Typography>
       <Typography
         component="h2"
@@ -71,7 +71,7 @@ function VideoInfo({ video = {} }) {
           variant="overline"
         >
           <RemoveRedEye />
-          {views}
+          {unitPrice}
         </Typography>
 
         <Typography
@@ -87,4 +87,4 @@ function VideoInfo({ video = {} }) {
   );
 }
 
-export default VideoInfo;
+export default ProductInfo;

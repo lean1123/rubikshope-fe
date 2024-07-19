@@ -8,15 +8,18 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Route, Routes, useParams } from "react-router-dom";
 import AddToCartForm from "../components/AddToCartForm";
-import VideoInfo from "../components/VideoInfo";
-import VideoMenu from "../components/VideoMenu";
-import VideoThumnail from "../components/VideoThumnail";
 import AdditionalInfo from "../components/video_menu/AdditionalInfo";
 import DescriptionComponent from "../components/video_menu/DescriptionComponent";
 import ReviewsComponent from "../components/video_menu/ReviewsComponent";
-import useVideoItem from "../hooks/VideoItemHook";
+import useProductItem from "../hooks/ProductItemHook";
+
+import { addToCart } from "../../cart/CartSlice";
+import ProductInfo from "../components/ProductInfo";
+import ProductMenu from "../components/ProductMenu";
+import ProductThumnail from "../components/ProductThumnail";
 // import VideoThumnail from "";
 
 const theme = createTheme();
@@ -40,14 +43,18 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function VideoDetailPage(props) {
+function ProductDetailPage(props) {
   const classes = useStyles();
 
   const param = useParams();
 
   // const pathName = useResolvedPath("").pathname;
 
-  const { loading, video } = useVideoItem(param.id);
+  const { loading, product } = useProductItem(param.id);
+
+  console.log(product);
+
+  const dispatch = useDispatch();
 
   if (loading) {
     return (
@@ -57,8 +64,14 @@ function VideoDetailPage(props) {
     );
   }
 
-  const handleAddtoCardFormSubmit = (values) => {
-    console.log("Add to card", values);
+  const handleAddtoCardFormSubmit = (formValues) => {
+    const action = addToCart({
+      id: product.productID,
+      product,
+      quantity: formValues.quantity,
+    });
+
+    dispatch(action);
   };
 
   return (
@@ -67,24 +80,30 @@ function VideoDetailPage(props) {
         <Paper elevation={0}>
           <Grid container spacing={1}>
             <Grid item className={classes.left}>
-              <VideoThumnail video={video} />
+              <ProductThumnail product={product} />
             </Grid>
             <Grid item className={classes.right}>
-              <VideoInfo video={video} />
+              <ProductInfo product={product} />
               <AddToCartForm onSubmit={handleAddtoCardFormSubmit} />
             </Grid>
           </Grid>
         </Paper>
-        <VideoMenu />
+        <ProductMenu />
 
         <Routes>
-          <Route index element={<DescriptionComponent video={video} />} />
-          <Route path="addition" element={<AdditionalInfo video={video} />} />
-          <Route path="reviews" element={<ReviewsComponent video={video} />} />
+          <Route index element={<DescriptionComponent product={product} />} />
+          <Route
+            path="addition"
+            element={<AdditionalInfo product={product} />}
+          />
+          <Route
+            path="reviews"
+            element={<ReviewsComponent product={product} />}
+          />
         </Routes>
       </Container>
     </Box>
   );
 }
 
-export default VideoDetailPage;
+export default ProductDetailPage;

@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 import React from "react";
 
 DescriptionComponent.propTypes = {
-  video: PropTypes.object,
+  product: PropTypes.object,
 };
 
-function DescriptionComponent({ video = {} }) {
+function DescriptionComponent({ product = {} }) {
   return (
     <Paper elevation={0}>
       <Typography textAlign="center" component="h2">
-        {video.description}
+        {product.description}
       </Typography>
     </Paper>
   );

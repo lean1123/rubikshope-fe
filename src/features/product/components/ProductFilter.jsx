@@ -5,12 +5,12 @@ import FilterByViews from "./filters/FilterByViews";
 import { Box } from "@mui/material";
 import FilterByActive from "./filters/FilterByActive";
 
-VideoFilters.propTypes = {
+ProductFilters.propTypes = {
   filters: PropTypes.object,
   onChange: PropTypes.func,
 };
 
-function VideoFilters({ filters, onChange }) {
+function ProductFilters({ filters, onChange }) {
   const handleByCategoryChange = (newCategoryId) => {
     if (!onChange) return;
 
@@ -59,4 +59,4 @@ function VideoFilters({ filters, onChange }) {
   );
 }
 
-export default VideoFilters;
+export default ProductFilters;

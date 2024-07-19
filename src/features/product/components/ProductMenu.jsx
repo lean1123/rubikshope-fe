@@ -3,7 +3,7 @@ import { makeStyles } from "@mui/styles";
 import React from "react";
 import { NavLink, useResolvedPath } from "react-router-dom";
 
-VideoMenu.propTypes = {};
+ProductMenu.propTypes = {};
 
 const theme = createTheme();
 
@@ -33,7 +33,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function VideoMenu(props) {
+function ProductMenu(props) {
   const classes = useStyles();
 
   const pathName = useResolvedPath("").pathname;
@@ -59,4 +59,4 @@ function VideoMenu(props) {
   );
 }
 
-export default VideoMenu;
+export default ProductMenu;
