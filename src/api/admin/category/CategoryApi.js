@@ -1,9 +1,8 @@
-import { Axios } from "axios";
 import AdminAxiosClient from "../AdminAxiosClient";
 
 class CategoryApi {
   getAll = () => {
-    const url = "/categories";
+    const url = "admin/categories";
     return AdminAxiosClient.get(url);
   };
 

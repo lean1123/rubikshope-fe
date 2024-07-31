@@ -9,7 +9,7 @@ export const register = createAsyncThunk("/register", async (payload) => {
   const newUser = data.data;
 
   // Save data to localstorage
-  localStorage.setItem("jwt", data.jwt);
+  localStorage.setItem("jwt", data.token);
   localStorage.setItem("user", JSON.stringify(newUser));
 
   return newUser;
@@ -18,12 +18,14 @@ export const register = createAsyncThunk("/register", async (payload) => {
 // async action -> register
 export const login = createAsyncThunk("/login", async (payload) => {
   const authApi = new AuthApi();
-  const data = await authApi.login(payload);
+  const response = await authApi.login(payload);
 
-  const newUser = data.data.data;
+  const newUser = await response.data.data;
+
+  const systemtoken = await response.data.token;
 
   // Save data to localstorage
-  localStorage.setItem("jwt", data.jwt);
+  localStorage.setItem("jwt", JSON.stringify(systemtoken));
   localStorage.setItem("user", JSON.stringify(newUser));
 
   return newUser;
