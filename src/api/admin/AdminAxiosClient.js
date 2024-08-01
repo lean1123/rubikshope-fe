@@ -13,38 +13,47 @@ const AdminAxiosClient = axios.create({
 });
 
 const refreshToken = async (token) => {
-  const url = "auth/refresh";
-  return AdminAxiosClient.post(url, { token: token });
+  const url = "http://localhost:3333/auth/refresh";
+  return axios.post(url, JSON.stringify({ token }), {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 };
 
 // Add a request interceptor
 AdminAxiosClient.interceptors.request.use(
   async (config) => {
-    if (
-      config.url.includes("user/login") ||
-      config.url.includes("user/register") ||
-      config.url.includes("auth/refresh")
-    ) {
+    // URL các endpoint không cần Authorization
+    const publicEndpoints = [/user\/login/, /user\/register/, /auth\/refresh/];
+
+    const isPublicEndpoint = publicEndpoints.some((pattern) =>
+      pattern.test(config.url)
+    );
+
+    if (isPublicEndpoint) {
+      // Xóa header Authorization nếu nó tồn tại
+      if (config.headers.Authorization) {
+        delete config.headers.Authorization;
+      }
       return config;
     }
 
+    // Nếu không phải public endpoint, thêm Authorization nếu có token
     const token = await getToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  function (error) {
-    // Do something with request error
+  (error) => {
     return Promise.reject(error);
   }
 );
 
 // Add a response interceptor
 AdminAxiosClient.interceptors.response.use(
-  function (response) {
-    // Any status code that lie within the range of 2xx cause this function to trigger
-    // Do something with response data
+  (response) => {
     return response;
   },
   async (error) => {
@@ -61,27 +70,33 @@ AdminAxiosClient.interceptors.response.use(
         const refreshTokenValue = await getToken();
         if (refreshTokenValue) {
           const response = await refreshToken(refreshTokenValue);
+
           console.log("Response in admin axios: ", response);
+
           const newToken = response.data.token;
 
           localStorage.setItem("jwt", JSON.stringify(newToken));
 
           originalRequest.headers.Authorization = `Bearer ${newToken}`;
+
           return AdminAxiosClient(originalRequest);
         }
+
+        console.log("No refresh token returned");
+        return Promise.reject(error);
       } catch (err) {
-        console.error("Lỗi khi gửi lại yêu cầu sau khi làm mới token", err);
+        console.error("Error during token refresh request", err);
         return Promise.reject(err);
       }
     }
 
     // Xử lý các lỗi khác
     if (error.response) {
-      console.error("Lỗi phản hồi", error.response);
+      console.error("Response error", error.response);
     } else if (error.request) {
-      console.error("Không nhận được phản hồi", error.request);
+      console.error("No response received", error.request);
     } else {
-      console.error("Lỗi khi thiết lập yêu cầu", error.message);
+      console.error("Request setup error", error.message);
     }
 
     return Promise.reject(error);
