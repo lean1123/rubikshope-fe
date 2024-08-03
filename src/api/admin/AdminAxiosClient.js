@@ -25,21 +25,24 @@ const refreshToken = async (token) => {
 AdminAxiosClient.interceptors.request.use(
   async (config) => {
     // URL các endpoint không cần Authorization
-    const publicEndpoints = [/user\/login/, /user\/register/, /auth\/refresh/];
+    const publicEndpoints = [
+      /user\/login/,
+      /user\/register/,
+      /auth\/refresh/,
+      /admin\/products/,
+    ];
 
     const isPublicEndpoint = publicEndpoints.some((pattern) =>
       pattern.test(config.url)
     );
 
     if (isPublicEndpoint) {
-      // Xóa header Authorization nếu nó tồn tại
       if (config.headers.Authorization) {
         delete config.headers.Authorization;
       }
       return config;
     }
 
-    // Nếu không phải public endpoint, thêm Authorization nếu có token
     const token = await getToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -51,7 +54,6 @@ AdminAxiosClient.interceptors.request.use(
   }
 );
 
-// Add a response interceptor
 AdminAxiosClient.interceptors.response.use(
   (response) => {
     return response;
@@ -90,7 +92,6 @@ AdminAxiosClient.interceptors.response.use(
       }
     }
 
-    // Xử lý các lỗi khác
     if (error.response) {
       console.error("Response error", error.response);
     } else if (error.request) {

@@ -1,9 +1,31 @@
+import { Box, Container, Grid } from "@mui/material";
 import React from "react";
+import Slider from "./components/Slider";
+import About from "./components/About";
+import ListNewProduct from "./components/ListNewProduct";
 
-Home.propTypes = {};
-
-function Home(props) {
-  return <div>Home</div>;
+function Home() {
+  return (
+    <Box>
+      <Container>
+        <Grid container>
+          <Grid item>
+            <Slider />
+          </Grid>
+        </Grid>
+        <Grid container>
+          <Grid item>
+            <About />
+          </Grid>
+        </Grid>
+        <Grid container>
+          <Grid item width="100%">
+            <ListNewProduct />
+          </Grid>
+        </Grid>
+      </Container>
+    </Box>
+  );
 }
 
 export default Home;
