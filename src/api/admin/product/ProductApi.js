@@ -45,6 +45,15 @@ class ProductApi {
       },
     });
   };
+
+  getAllProduct = async ({ page, size }) => {
+    return AdminAxiosClient.get("admin/products", {
+      params: {
+        page,
+        size,
+      },
+    });
+  };
 }
 
 export default ProductApi;
