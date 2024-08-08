@@ -28,7 +28,7 @@ function Product({ product }) {
   const navigate = useNavigate();
 
   const handleClickVideo = () => {
-    navigate(`${product.productID}`);
+    navigate(`/products/${product.productID}`);
   };
 
   const handleImageUrl = () => {

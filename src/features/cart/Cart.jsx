@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
 import OrderApi from "../../api/user/order/Order";
+import AuthDialog from "../auth/AuthDialog";
 import { refreshCart } from "./CartSlice";
 import CartItems from "./components/CartItems";
 import ShippingInfo from "./components/ShippingInfo";
@@ -45,6 +46,14 @@ function Cart() {
   const user = useSelector((state) => state.users.current);
   const cartItems = useSelector((state) => state.cart.items);
   const [cartItemTotal, setCartItemTotal] = useState(0);
+  const [open, setOpen] = useState(false);
+
+  const handleClose = (e, mess) => {
+    if (mess === "backdropClick") {
+      e.stopPropagation();
+      return;
+    } else setOpen(false);
+  };
 
   useEffect(() => {
     const total = cartItems.reduce((acc, item) => {
@@ -110,7 +119,15 @@ function Cart() {
         window.location = url;
       }
     } catch (err) {
-      console.log(err);
+      const { response } = err;
+
+      if (response) {
+        if (response.status === 401 && localStorage.getItem("user") === null) {
+          // navigate("/login");
+          setOpen(true);
+        }
+      }
+
       enqueueSnackbar("Error: " + err.message, { variant: "error" });
     }
   };
@@ -140,6 +157,8 @@ function Cart() {
           </Button>
         </Grid>
       </Container>
+
+      <AuthDialog open={open} handleCloseDialog={handleClose} />
     </Box>
   );
 }

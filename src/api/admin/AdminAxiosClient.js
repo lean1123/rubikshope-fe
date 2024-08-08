@@ -21,15 +21,14 @@ const refreshToken = async (token) => {
   });
 };
 
-// Add a request interceptor
 AdminAxiosClient.interceptors.request.use(
   async (config) => {
-    // URL các endpoint không cần Authorization
     const publicEndpoints = [
       /user\/login/,
       /user\/register/,
       /auth\/refresh/,
       /admin\/products/,
+      /admin\/categories/,
     ];
 
     const isPublicEndpoint = publicEndpoints.some((pattern) =>
