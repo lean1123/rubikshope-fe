@@ -17,23 +17,19 @@ import {
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import Login from "../../features/auth/components/login/Login";
-import Register from "../../features/auth/components/register/Register";
-import styles from "./styles.module.css";
 import { logout } from "../../features/auth/AuthSlice";
 import { cartItemsCounter } from "../../features/cart/CartSelector";
+import styles from "./styles.module.css";
+import AuthDialog from "../../features/auth/AuthDialog";
 
 export default function Header() {
-  const [isLogin, setIsLogin] = React.useState(true);
+  // const [isLogin, setIsLogin] = React.useState(true);
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -51,6 +47,7 @@ export default function Header() {
 
   const handleClickOpen = () => {
     setOpen(true);
+    // navigate("/login");
   };
 
   const handleClose = (e, mess) => {
@@ -131,8 +128,8 @@ export default function Header() {
         anchorEl={anchorEl}
         id="account-menu"
         open={openMenu}
-        onClose={handleClose}
-        onClick={handleClose}
+        onClose={handleCloseMenu}
+        onClick={handleCloseMenu}
         PaperProps={{
           elevation: 0,
           sx: {
@@ -188,42 +185,7 @@ export default function Header() {
           Logout
         </MenuItem>
       </Menu>
-
-      <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
-        <DialogContent>
-          {!isLogin && (
-            <>
-              <Register closeDialog={handleClose} />
-              <Box container justifyContent="flex-end" textAlign="center">
-                <Button
-                  onClick={() => {
-                    setIsLogin(true);
-                  }}
-                >
-                  Already have an account? Sign in
-                </Button>
-              </Box>
-            </>
-          )}
-          {isLogin && (
-            <>
-              <Login closeDialog={handleClose} />
-              <Box container justifyContent="flex-end" textAlign="center">
-                <Button
-                  onClick={() => {
-                    setIsLogin(false);
-                  }}
-                >
-                  Already have an account? Sign up
-                </Button>
-              </Box>
-            </>
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-        </DialogActions>
-      </Dialog>
+      <AuthDialog open={open} handleCloseDialog={handleClose} />
     </Box>
   );
 }

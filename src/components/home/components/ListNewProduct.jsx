@@ -1,8 +1,15 @@
-import { Box, Grid, Pagination, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  Pagination,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Container } from "react-bootstrap";
 import ProductApi from "../../../api/admin/product/ProductApi";
 import ProductList from "../../../features/product/components/ProductList";
+import { useNavigate } from "react-router-dom";
 
 function ListNewProduct() {
   const [totalPage, setTotalPage] = useState(0);
@@ -11,6 +18,8 @@ function ListNewProduct() {
     size: 3,
   });
   const [listNewProduct, setListNewProduct] = useState([]);
+
+  const navigate = useNavigate();
 
   const handleOnPageChange = (e, page) => {
     console.log("Page ", page);
@@ -21,6 +30,10 @@ function ListNewProduct() {
     });
 
     console.log(params);
+  };
+
+  const handleWatchMoreAction = () => {
+    navigate("/products");
   };
 
   useEffect(() => {
@@ -63,6 +76,18 @@ function ListNewProduct() {
               count={totalPage}
               shape="rounded"
             />
+          </Grid>
+        </Grid>
+        <Grid container justifyContent="center">
+          <Grid item>
+            <Box
+              component={Button}
+              m={2}
+              variant="contained"
+              onClick={handleWatchMoreAction}
+            >
+              Watch More
+            </Box>
           </Grid>
         </Grid>
       </Container>
