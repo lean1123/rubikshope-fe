@@ -6,7 +6,7 @@ import ListNewProduct from "./components/ListNewProduct";
 
 function Home() {
   return (
-    <Box>
+    <Box minHeight="400px">
       <Container>
         <Grid container>
           <Grid item>

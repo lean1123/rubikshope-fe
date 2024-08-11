@@ -20,7 +20,6 @@ import { addToCart } from "../../cart/CartSlice";
 import ProductInfo from "../components/ProductInfo";
 import ProductMenu from "../components/ProductMenu";
 import ProductThumnail from "../components/ProductThumnail";
-// import VideoThumnail from "";
 
 const theme = createTheme();
 

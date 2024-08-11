@@ -11,15 +11,25 @@ const useStyles = makeStyles(() => ({
     justifyContent: "center",
     marginTop: theme.spacing(2),
   },
-  textField: {
+  textFieldWrap: {
     flexGrow: 1,
     marginRight: theme.spacing(1),
+  },
+  textField: {
+    "& > div": {
+      borderRadius: "0",
+      borderTopLeftRadius: "4px",
+      borderBottomLeftRadius: "4px",
+    },
   },
   button: {
     height: "100%",
     backgroundColor: theme.palette.primary.light,
     color: "#ffffff",
     padding: theme.spacing(2),
+    border: "none",
+    borderTopRightRadius: "4px",
+    borderBottomRightRadius: "4px",
     "&:hover": {
       backgroundColor: "#0d1b6b",
     },
@@ -36,12 +46,13 @@ function InfoRegister() {
       </Typography>
       <Box component="form" className={classes.containing}>
         <Grid container alignItems="center" justifyContent="center">
-          <Grid item className={classes.textField}>
+          <Grid item className={classes.textFieldWrap}>
             <TextField
               id="outlined-helperText"
               placeholder="Send your email..."
               variant="outlined"
               fullWidth
+              className={classes.textField}
             />
           </Grid>
           <Grid item>

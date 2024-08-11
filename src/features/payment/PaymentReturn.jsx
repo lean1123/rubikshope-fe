@@ -57,7 +57,7 @@ function PaymentReturn() {
   }, [queryParams]);
 
   return (
-    <Box p={theme.spacing(32)}>
+    <Box minHeight="400px" p={theme.spacing(32)}>
       <Paper>
         <Container>
           <Grid container>
