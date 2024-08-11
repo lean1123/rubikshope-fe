@@ -133,6 +133,7 @@ function Cart() {
   };
   return (
     <Box
+      minHeight="400px"
       className={classes.root}
       component="form"
       onSubmit={form.handleSubmit(handleOnSubmit)}

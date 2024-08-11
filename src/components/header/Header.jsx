@@ -1,7 +1,6 @@
 import {
   AccountCircle,
   Logout,
-  PersonAdd,
   Settings,
   ShoppingCart,
 } from "@mui/icons-material";
@@ -23,10 +22,10 @@ import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import AuthDialog from "../../features/auth/AuthDialog";
 import { logout } from "../../features/auth/AuthSlice";
 import { cartItemsCounter } from "../../features/cart/CartSelector";
 import styles from "./styles.module.css";
-import AuthDialog from "../../features/auth/AuthDialog";
 
 export default function Header() {
   // const [isLogin, setIsLogin] = React.useState(true);
@@ -63,6 +62,10 @@ export default function Header() {
   };
   const handleCloseMenu = () => {
     setAnchorEl(null);
+  };
+
+  const handleMyAccountBtn = () => {
+    navigate("/myAccount");
   };
 
   // Handle logout
@@ -159,19 +162,10 @@ export default function Header() {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleCloseMenu}>
-          <Avatar /> Profile
-        </MenuItem>
-        <MenuItem onClick={handleCloseMenu}>
+        <MenuItem onClick={handleMyAccountBtn}>
           <Avatar /> My account
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleCloseMenu}>
-          <ListItemIcon>
-            <PersonAdd fontSize="small" />
-          </ListItemIcon>
-          Add another account
-        </MenuItem>
         <MenuItem onClick={handleCloseMenu}>
           <ListItemIcon>
             <Settings fontSize="small" />

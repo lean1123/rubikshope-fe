@@ -7,9 +7,9 @@ import ReviewsComponent from "./components/video_menu/ReviewsComponent";
 import ProductDetailPage from "./page/ProductDetail";
 import ProductListPage from "./page/ProductListPage";
 
-function Product(props) {
+function Product() {
   return (
-    <Box marginTop={4}>
+    <Box minHeight="400px" marginTop={4}>
       <Routes>
         <Route index element={<ProductListPage />} />
         <Route path=":id/*" element={<ProductDetailPage />}>

@@ -7,6 +7,7 @@ import Cart from "./features/cart/Cart";
 import Category from "./features/category/Category";
 import PaymentReturn from "./features/payment/PaymentReturn";
 import Product from "./features/product/Product";
+import Profile from "./features/profile/Profile";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/myAccount" element={<Profile />} />
         <Route path="/products/*" element={<Product />} />
         <Route path="/categories" element={<Category />} />
         <Route path="/cart" element={<Cart />} />
