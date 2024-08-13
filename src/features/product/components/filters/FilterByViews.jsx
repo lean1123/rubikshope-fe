@@ -57,7 +57,7 @@ function FilterByViews({ onChange }) {
 
   return (
     <Box className={classes.root}>
-      <Typography variant="subtitle2">Filter by views</Typography>
+      <Typography variant="subtitle2">FILTER BY PRICE AMOUNT</Typography>
       <Box className={classes.range}>
         <TextField
           placeholder="Start amount"

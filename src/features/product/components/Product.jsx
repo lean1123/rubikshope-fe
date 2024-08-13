@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
   minHeight: {
     minHeight: "138px",
   },
+  buttonWrapp: {
+    justifyContent: "center",
+  },
 }));
 
 function Product({ product }) {
@@ -57,18 +60,20 @@ function Product({ product }) {
             {product.productName}
           </Typography>
           <Typography variant="body2" color="text.secondary">
+            <span style={{ fontWeight: "bold" }}>Description: </span>
             {product.description}
           </Typography>
           <Typography variant="caption" color="text.secondary">
-            Price: {product.unitPrice}
+            <span style={{ fontWeight: "bold" }}>Price: </span>
+            {product.unitPrice}
           </Typography>
         </CardContent>
-        <CardActions>
+        <CardActions className={classes.buttonWrapp}>
           <Button size="small" variant="contained">
             Buy
           </Button>
-          <Button size="small" variant="outlined">
-            Learn More
+          <Button size="small" variant="contained">
+            More
           </Button>
         </CardActions>
       </Card>
