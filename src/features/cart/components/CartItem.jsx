@@ -2,7 +2,7 @@ import { Button, TableCell, TableRow } from "@mui/material";
 import PropTypes from "prop-types";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { ccyFormat } from "../../../utils/Index";
+import { priceFormat } from "../../../utils/Index";
 import { removeFromCart, setQuantity } from "../CartSlice";
 import ChangeQuantityForm from "./ChangeQuantityForm";
 
@@ -42,7 +42,7 @@ function CartItem({ item, onSubmit }) {
       </TableCell>
       <TableCell align="right">{product.unitPrice}</TableCell>
       <TableCell align="right">
-        {ccyFormat(product.unitPrice * item.quantity)}
+        {priceFormat(product.unitPrice * item.quantity)}
       </TableCell>
       <TableCell>
         <Button size="small" variant="outlined" onClick={handleClickRemove}>

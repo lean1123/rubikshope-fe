@@ -1,7 +1,9 @@
 import PropTypes from "prop-types";
 import { Box, CircularProgress, Typography, createTheme } from "@mui/material";
-import { Feed, RemoveRedEye } from "@mui/icons-material";
+import { Feed } from "@mui/icons-material";
 import { makeStyles } from "@mui/styles";
+import PaidIcon from "@mui/icons-material/Paid";
+import { priceFormat } from "../../../utils/Index";
 
 ProductInfo.propTypes = {
   video: PropTypes.object,
@@ -49,19 +51,27 @@ function ProductInfo({ product = {} }) {
     productName,
     description,
     unitPrice,
+    active,
     category: { categoryName },
   } = product;
 
   return (
     <Box className={classes.root}>
-      <Typography component="h1" variant="h4">
+      <Typography fontSize="32px" variant="caption" fontWeight="bold">
         {productName}
+      </Typography>
+      <Typography variant="subtitle2">
+        <span style={{ fontWeight: "bold", fontSize: "14px" }}>Status: </span>
+        {active === true ? "In Stock" : "Out of Stock"}
       </Typography>
       <Typography
         component="h2"
         variant="subtitle1"
         className={classes.description}
       >
+        <span style={{ fontWeight: "bold", fontSize: "14px" }}>
+          Product Description:
+        </span>{" "}
         {description}
       </Typography>
       <Box className={classes.subBox}>
@@ -70,8 +80,8 @@ function ProductInfo({ product = {} }) {
           component="span"
           variant="overline"
         >
-          <RemoveRedEye />
-          {unitPrice}
+          <PaidIcon />
+          {priceFormat(unitPrice)}
         </Typography>
 
         <Typography

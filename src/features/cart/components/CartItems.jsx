@@ -7,7 +7,7 @@ import TableRow from "@mui/material/TableRow";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { ccyFormat } from "../../../utils/Index";
+import { priceFormat } from "../../../utils/Index";
 import CartItem from "./CartItem";
 
 CartItems.propTypes = {
@@ -51,7 +51,7 @@ function CartItems() {
           <TableRow>
             <TableCell rowSpan={3} />
             <TableCell colSpan={2}>Subtotal</TableCell>
-            <TableCell align="right">{ccyFormat(cartItemTotal)}</TableCell>
+            <TableCell align="right">{priceFormat(cartItemTotal)}</TableCell>
           </TableRow>
         </TableBody>
       </Table>

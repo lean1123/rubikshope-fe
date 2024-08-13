@@ -41,7 +41,9 @@ function FilterByActive({ filters, onChange }) {
 
   return (
     <Box className={classes.root}>
-      <Typography variant="subtitle2">Filter by active videos</Typography>
+      <Typography variant="subtitle2" fontSize="12px">
+        FILTER BY ACTIVE PRODUCTS
+      </Typography>
       <FormControlLabel
         className={classes.checkBox}
         control={

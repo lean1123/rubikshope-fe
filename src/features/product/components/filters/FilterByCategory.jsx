@@ -59,7 +59,7 @@ function FilterByCategory({ onChange }) {
 
   return (
     <Box className={classes.root}>
-      <Typography variant="subtitle2">Filter By Category</Typography>
+      <Typography variant="subtitle2">FILTER BY CATEGORIES</Typography>
 
       <ul className={classes.menu}>
         {categories.map((category) => (
