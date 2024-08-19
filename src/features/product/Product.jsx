@@ -3,7 +3,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import AdditionalInfo from "./components/video_menu/AdditionalInfo";
 import DescriptionComponent from "./components/video_menu/DescriptionComponent";
-import ReviewsComponent from "./components/video_menu/ReviewsComponent";
+import ReviewsComponent from "./components/video_menu/review_component/ReviewsComponent";
 import ProductDetailPage from "./page/ProductDetail";
 import ProductListPage from "./page/ProductListPage";
 

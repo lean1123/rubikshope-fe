@@ -13,7 +13,7 @@ import { Route, Routes, useParams } from "react-router-dom";
 import AddToCartForm from "../components/AddToCartForm";
 import AdditionalInfo from "../components/video_menu/AdditionalInfo";
 import DescriptionComponent from "../components/video_menu/DescriptionComponent";
-import ReviewsComponent from "../components/video_menu/ReviewsComponent";
+import ReviewsComponent from "../components/video_menu/review_component/ReviewsComponent";
 import useProductItem from "../hooks/ProductItemHook";
 
 import { addToCart } from "../../cart/CartSlice";
@@ -50,8 +50,6 @@ function ProductDetailPage(props) {
   // const pathName = useResolvedPath("").pathname;
 
   const { loading, product } = useProductItem(param.id);
-
-  console.log(product);
 
   const dispatch = useDispatch();
 

@@ -55,7 +55,11 @@ function Search({ onSubmit }) {
       <InputBase
         sx={{ ml: 1, flex: 1 }}
         placeholder="Search by product name"
-        inputProps={{ "aria-label": "search google maps", autoComplete: "on" }}
+        inputProps={{
+          "aria-label": "search google maps",
+          autoComplete: "on",
+          maxLength: 32,
+        }}
         id="searchValue"
         name="searchValue"
         {...form.register("searchValue")}
