@@ -13,7 +13,7 @@ const useStyles = makeStyles(() => ({
   },
   textFieldWrap: {
     flexGrow: 1,
-    marginRight: theme.spacing(1),
+    // marginRight: theme.spacing(1),
   },
   textField: {
     "& > div": {

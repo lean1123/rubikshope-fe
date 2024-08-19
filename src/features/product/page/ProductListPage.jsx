@@ -15,8 +15,8 @@ import FilterViewer from "../components/FilterViewer";
 import ProductFilters from "../components/ProductFilter";
 import ProductList from "../components/ProductList";
 import ProductSort from "../components/ProductSort";
-import ProductSkeletons from "../components/VideoSkeletonList";
 import Search from "../components/Search";
+import ProductSkeletons from "../components/VideoSkeletonList";
 
 const theme = createTheme();
 
@@ -29,6 +29,12 @@ const useStyles = makeStyles(() => ({
   },
   right: {
     flex: "1 1 0",
+  },
+  loadingBox: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
 }));
 
