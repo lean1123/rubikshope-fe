@@ -59,15 +59,16 @@ function Review({ review = {} }) {
             {review.comment}
           </Typography>
         )}
-        {review.listImageReview.map((image, index) => (
-          <Box
-            key={index}
-            className={classes.reviewImg}
-            width={100}
-            component="img"
-            src={`${image}`}
-          ></Box>
-        ))}
+        {review.listImageReview &&
+          review.listImageReview.map((image, index) => (
+            <Box
+              key={index}
+              className={classes.reviewImg}
+              width={100}
+              component="img"
+              src={`${image}`}
+            ></Box>
+          ))}
       </Box>
     </Box>
   );

@@ -38,12 +38,23 @@ function ReviewsComponent({ product = {} }) {
     setOpen(true);
   };
 
+  const handleShowListReview = (data) => {
+    let currentList = listReview;
+
+    currentList.pop();
+
+    const newListReview = [data, ...currentList];
+
+    setListReview(newListReview);
+  };
+
   const handleSubmitReviewForm = async (values) => {
     try {
       const response = await ReviewApi.insertReview(values);
 
       if (response.status === 200) {
         enqueueSnackbar("Success inserted", { variant: "success" });
+        handleShowListReview(response.data);
       }
     } catch (error) {
       enqueueSnackbar(error, { variant: "error" });
