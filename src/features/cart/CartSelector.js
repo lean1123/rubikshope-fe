@@ -1,7 +1,12 @@
 import { createSelector } from "@reduxjs/toolkit";
 
 const cartItemsSelector = (state) => {
-  return state.cart.items;
+  // const cartID = state.cart.cartID;
+
+  const items = state.cart.items;
+
+  // return items.filter((item) => item.cartID === cartID);
+  return items;
 };
 
 export const cartItemsCounter = createSelector(cartItemsSelector, (items) =>

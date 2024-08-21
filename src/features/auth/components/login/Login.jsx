@@ -3,6 +3,7 @@ import { useSnackbar } from "notistack";
 import { useDispatch } from "react-redux";
 import { login } from "../../AuthSlice";
 import LoginForm from "./login_form/LoginForm";
+import { setCartID } from "../../../cart/CartSlice";
 
 function Login(props) {
   const disPatch = useDispatch();
@@ -15,7 +16,16 @@ function Login(props) {
     try {
       const action = login(values);
       const resultAction = await disPatch(action);
-      unwrapResult(resultAction);
+
+      const loginedUser = unwrapResult(resultAction);
+
+      if (loginedUser.userID) {
+        enqueueSnackbar("Welcome to Rubikshop! " + loginedUser.fullName, {
+          variant: "success",
+        });
+
+        disPatch(setCartID(loginedUser.userID));
+      }
 
       if (closeDialog) {
         closeDialog();

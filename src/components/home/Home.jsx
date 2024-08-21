@@ -8,17 +8,17 @@ function Home() {
   return (
     <Box minHeight="400px">
       <Container>
-        <Grid container>
+        <Grid container mt={4}>
           <Grid item>
             <Slider />
           </Grid>
         </Grid>
-        <Grid container>
+        <Grid container mt={4}>
           <Grid item>
             <About />
           </Grid>
         </Grid>
-        <Grid container>
+        <Grid container mt={4}>
           <Grid item width="100%">
             <ListNewProduct />
           </Grid>
