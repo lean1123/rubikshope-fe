@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useNavigate } from "react-router-dom";
+import { priceFormat } from "../../../utils/Index";
 
 Product.propTypes = {
   video: PropTypes.object,
@@ -65,7 +66,7 @@ function Product({ product }) {
           </Typography>
           <Typography variant="caption" color="text.secondary">
             <span style={{ fontWeight: "bold" }}>Price: </span>
-            {product.unitPrice}
+            {priceFormat(product.unitPrice)}
           </Typography>
         </CardContent>
         <CardActions className={classes.buttonWrapp}>

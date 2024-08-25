@@ -105,7 +105,7 @@ export default function Header() {
             color="inherit"
             onClick={() => navigate("/cart")}
           >
-            <Badge badgeContent={cartItemsCount} color="error">
+            <Badge badgeContent={cartItemsCount} max={9} color="error">
               <ShoppingCart />
             </Badge>
           </IconButton>
