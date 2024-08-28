@@ -22,7 +22,7 @@ const useStyles = makeStyles(() => ({
     },
 
     "& > li > a": {
-      color: theme.palette.primary,
+      color: theme.palette.primary.main,
       textDecoration: "none",
     },
 
@@ -31,27 +31,39 @@ const useStyles = makeStyles(() => ({
       fontWeight: "bold",
     },
   },
+
+  notActive: {
+    color: theme.palette.primary.main + " !important",
+    textDecoration: "none !important",
+    fontWeight: "normal !important",
+  },
 }));
 
-function ProductMenu(props) {
+function ProductMenu({ descriptionActive }) {
+  console.log(descriptionActive);
+
   const classes = useStyles();
 
-  const pathName = useResolvedPath("").pathname;
+  const indexPathname = useResolvedPath("").pathname;
 
   return (
     <Box component="ul" className={classes.root}>
       <li>
-        <Link component={NavLink} to={`${pathName}`}>
+        <Link
+          className={descriptionActive === false ? classes.notActive : ""}
+          component={NavLink}
+          to={`${indexPathname}`}
+        >
           Description
         </Link>
       </li>
       <li>
-        <Link component={NavLink} to={`${pathName}/addition`}>
+        <Link component={NavLink} to={`${indexPathname}/addition`}>
           Addition Infomations
         </Link>
       </li>
       <li>
-        <Link component={NavLink} to={`${pathName}/reviews`}>
+        <Link component={NavLink} to={`${indexPathname}/reviews`}>
           Reviews
         </Link>
       </li>

@@ -24,10 +24,10 @@ function Footer() {
   const classes = useStyles();
 
   return (
-    <Box mt={2} width={"100%"} className={classes.root}>
-      <Container maxWidth className={classes.container}>
+    <Box mt={2} sx={{ width: "100%" }} className={classes.root}>
+      <Container sx={{ width: "100%" }} className={classes.container}>
         <Grid container className={classes.shopInfo}>
-          <Grid item width={"100%"}>
+          <Grid item sx={{ width: "100%" }}>
             <ShopInfo />
           </Grid>
         </Grid>

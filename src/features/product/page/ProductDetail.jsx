@@ -7,9 +7,9 @@ import {
   createTheme,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Route, Routes, useParams } from "react-router-dom";
+import { Route, Routes, useParams, useResolvedPath } from "react-router-dom";
 import AddToCartForm from "../components/AddToCartForm";
 import AdditionalInfo from "../components/video_menu/AdditionalInfo";
 import DescriptionComponent from "../components/video_menu/DescriptionComponent";
@@ -47,11 +47,21 @@ function ProductDetailPage(props) {
 
   const param = useParams();
 
-  // const pathName = useResolvedPath("").pathname;
-
   const { loading, product } = useProductItem(param.id);
 
   const dispatch = useDispatch();
+
+  const [descriptionActive, setDescriptionActive] = useState(true);
+
+  const pathName = useResolvedPath().pathname;
+
+  useEffect(() => {
+    if (pathName.includes("addition") || pathName.includes("reviews")) {
+      setDescriptionActive(false);
+    } else {
+      setDescriptionActive(true);
+    }
+  }, [pathName]);
 
   if (loading) {
     return (
@@ -85,7 +95,7 @@ function ProductDetailPage(props) {
             </Grid>
           </Grid>
         </Paper>
-        <ProductMenu />
+        <ProductMenu descriptionActive={descriptionActive} />
 
         <Routes>
           <Route index element={<DescriptionComponent product={product} />} />
