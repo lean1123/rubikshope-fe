@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import React from "react";
-import { Route, Routes, useResolvedPath } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import AdditionalInfo from "./components/video_menu/AdditionalInfo";
 import DescriptionComponent from "./components/video_menu/DescriptionComponent";
 import ReviewsComponent from "./components/video_menu/review_component/ReviewsComponent";
