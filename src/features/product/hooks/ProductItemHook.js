@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ProductApi from "../../../api/admin/product/ProductApi";
+import ProductService from "../../../services/ProductService";
 
 export default function useProductItem(productID) {
   const [product, setProduct] = useState({});
@@ -8,17 +8,21 @@ export default function useProductItem(productID) {
   useEffect(() => {
     (async () => {
       try {
+        // setLoading(true);
+        // const productApi = new ProductApi();
+
+        // const result = await productApi.getByID(productID);
+
+        // setProduct(result.data);
+
         setLoading(true);
-        const productApi = new ProductApi();
-
-        const result = await productApi.getByID(productID);
-
-        setProduct(result.data);
+        const product = await ProductService.getProductById(productID);
+        setProduct(product);
       } catch (error) {
         console.log("Error in hook name is useVideoItem: ", error);
+      } finally {
+        setLoading(false);
       }
-
-      setLoading(false);
     })();
   }, [productID]);
 

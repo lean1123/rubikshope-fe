@@ -5,7 +5,7 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { priceFormat } from "../../../utils/Index";
 import CartItem from "./CartItem";
@@ -16,14 +16,20 @@ CartItems.propTypes = {
 
 function CartItems() {
   const cartItems = useSelector((state) => state.cart.items);
-  const [cartItemTotal, setCartItemTotal] = useState(0);
+  // const [cartItemTotal, setCartItemTotal] = useState(0);
 
-  useEffect(() => {
-    const total = cartItems.reduce((acc, item) => {
+  const totalPrice = useMemo(() => {
+    return cartItems.reduce((acc, item) => {
       return acc + item.quantity * item.product.unitPrice;
     }, 0);
-    setCartItemTotal(total);
   }, [cartItems]);
+
+  // useEffect(() => {
+  //   const total = cartItems.reduce((acc, item) => {
+  //     return acc + item.quantity * item.product.unitPrice;
+  //   }, 0);
+  //   setCartItemTotal(total);
+  // }, [cartItems]);
 
   return (
     <Box component={Paper} marginTop={2} p={1}>
@@ -51,7 +57,7 @@ function CartItems() {
           <TableRow>
             <TableCell rowSpan={3} />
             <TableCell colSpan={2}>Subtotal</TableCell>
-            <TableCell align="right">{priceFormat(cartItemTotal)}</TableCell>
+            <TableCell align="right">{priceFormat(totalPrice)}</TableCell>
           </TableRow>
         </TableBody>
       </Table>

@@ -1,4 +1,4 @@
-import AdminAxiosClient from "../AdminAxiosClient";
+import AdminAxiosClient from "./AdminAxiosClient";
 
 class ProductApi {
   getAll = () => {

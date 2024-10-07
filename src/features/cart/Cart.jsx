@@ -2,12 +2,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Box, Button, createTheme, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useSnackbar } from "notistack";
-import React, { useEffect, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Container } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
-import OrderApi from "../../api/user/order/Order";
+import OrderService from "../../services/OrderService";
 import AuthDialog from "../auth/AuthDialog";
 import { refreshCart } from "./CartSlice";
 import CartItems from "./components/CartItems";
@@ -45,8 +45,14 @@ function Cart() {
   const classes = useStyles();
   const user = useSelector((state) => state.users.current);
   const cartItems = useSelector((state) => state.cart.items);
-  const [cartItemTotal, setCartItemTotal] = useState(0);
+  // const [cartItemTotal, setCartItemTotal] = useState(0);
   const [open, setOpen] = useState(false);
+
+  const totalPrice = useMemo(() => {
+    return cartItems.reduce((acc, item) => {
+      return acc + item.quantity * item.product.unitPrice;
+    }, 0);
+  }, [cartItems]);
 
   const handleClose = (e, mess) => {
     if (mess === "backdropClick") {
@@ -55,12 +61,12 @@ function Cart() {
     } else setOpen(false);
   };
 
-  useEffect(() => {
-    const total = cartItems.reduce((acc, item) => {
-      return acc + item.quantity * item.product.unitPrice;
-    }, 0);
-    setCartItemTotal(total);
-  }, [cartItems]);
+  // useEffect(() => {
+  //   const total = cartItems.reduce((acc, item) => {
+  //     return acc + item.quantity * item.product.unitPrice;
+  //   }, 0);
+  //   setCartItemTotal(total);
+  // }, [cartItems]);
 
   const schema = yup.object().shape({
     fullName: yup.string().required("Full name is required"),
@@ -99,25 +105,38 @@ function Cart() {
       district: values.district,
       city: values.city,
       cartItems,
-      totalAmount: cartItemTotal,
+      totalAmount: totalPrice,
     };
 
     try {
-      const orderApi = new OrderApi();
+      // const orderApi = new OrderApi();
 
-      const response = await orderApi.saveOrder(orderData);
-      enqueueSnackbar("Order successfully", { variant: "success" });
+      // const response = await orderApi.saveOrder(orderData);
+      // enqueueSnackbar("Order successfully", { variant: "success" });
 
-      form.reset();
+      const data = await OrderService.saveOrder(orderData);
 
-      if (cartItems.length > 0) {
+      if (data != null) {
+        enqueueSnackbar("Order successfully", { variant: "success" });
+        form.reset();
         disPatch(refreshCart());
-      }
-
-      if (response.data) {
-        const url = response.data.split("url:")[1];
+        const url = data.split("url:")[1];
         window.location = url;
       }
+
+      enqueueSnackbar("Your order is not successful", { variant: "info" });
+
+      // form.reset();
+
+      // if (cartItems.length > 0) {
+      //   disPatch(refreshCart());
+      // }
+
+      // if (response.data) {
+      //   enqueueSnackbar("Order successfully", { variant: "success" });
+      //   const url = response.data.split("url:")[1];
+      //   window.location = url;
+      // }
     } catch (err) {
       const { response } = err;
 
@@ -127,8 +146,8 @@ function Cart() {
           setOpen(true);
         }
       }
-
-      enqueueSnackbar("Error: " + err.message, { variant: "error" });
+      console.error("Error in Cart!", err);
+      enqueueSnackbar("Your order is not successful", { variant: "error" });
     }
   };
   return (

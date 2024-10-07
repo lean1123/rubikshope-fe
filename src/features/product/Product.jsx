@@ -1,21 +1,26 @@
 import { Box } from "@mui/material";
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import AdditionalInfo from "./components/video_menu/AdditionalInfo";
-import DescriptionComponent from "./components/video_menu/DescriptionComponent";
-import ReviewsComponent from "./components/video_menu/review_component/ReviewsComponent";
-import ProductDetailPage from "./page/ProductDetail";
-import ProductListPage from "./page/ProductListPage";
+import AppRoutes from "../../routes/AppRoutes";
 
 function Product() {
   return (
     <Box minHeight="400px" marginTop={4}>
       <Routes>
-        <Route index element={<ProductListPage />} />
-        <Route path=":id/*" element={<ProductDetailPage />}>
-          <Route index element={<DescriptionComponent />} />
-          <Route path="addition" element={<AdditionalInfo />} />
-          <Route path="reviews" element={<ReviewsComponent />} />
+        <Route index Component={AppRoutes.listProductsIndex.component} />
+        <Route
+          path={AppRoutes.productDetails.path}
+          Component={AppRoutes.productDetails.component}
+        >
+          <Route index Component={AppRoutes.productDescription.component} />
+          <Route
+            path={AppRoutes.productAddition.path}
+            Component={AppRoutes.productAddition.component}
+          />
+          <Route
+            path={AppRoutes.productReviews.path}
+            Component={AppRoutes.productReviews.component}
+          />
         </Route>
       </Routes>
     </Box>

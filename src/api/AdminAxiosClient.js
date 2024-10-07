@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const getToken = async () => {
-  const token = JSON.parse(localStorage.getItem("jwt"));
+  // const token = JSON.parse(localStorage.getItem("jwt"));
+  const token = localStorage.getItem("jwt");
   return token ? token : null;
 };
 

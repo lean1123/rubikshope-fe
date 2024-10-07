@@ -1,4 +1,4 @@
-import AdminAxiosClient from "../admin/AdminAxiosClient";
+import AdminAxiosClient from "./AdminAxiosClient";
 
 const ReviewApi = {
   getAllReviewOfProduct: ({ productID, page, size, sort }) => {

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
 import { Box, Container, Grid, Pagination, Typography } from "@mui/material";
-import OrdersTable from "../list_order/OrdersTable";
-import OrderApi from "../../../api/user/order/Order";
 import { makeStyles } from "@mui/styles";
+import React, { useEffect, useState } from "react";
+import OrderService from "../../../services/OrderService";
+import OrdersTable from "../list_order/OrdersTable";
 
 const useStyles = makeStyles(() => ({
   pagination: {
@@ -18,21 +18,35 @@ function ListOrder() {
   const [totalPage, setTotalPage] = useState(0);
   const [listOrder, setListOrder] = useState([]);
   useEffect(() => {
-    (async () => {
-      try {
-        const orderApi = new OrderApi();
-        const resp = await orderApi.getListOrder({ page });
+    //   async () => {
+    //   try {
+    //     const orderApi = new OrderApi();
+    //     const resp = await orderApi.getListOrder({ page });
+    //     const { content } = resp.data;
+    //     if (content) {
+    //       setListOrder(content);
+    //     }
+    //     const { totalPages } = resp.data;
+    //     setTotalPage(totalPages);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
 
-        const { content } = resp.data;
+    const fetchListOrder = async () => {
+      try {
+        const { content, totalPages } =
+          await OrderService.getListOrderPagination({ page });
         if (content) {
           setListOrder(content);
         }
-        const { totalPages } = resp.data;
         setTotalPage(totalPages);
       } catch (error) {
-        console.log(error);
+        console.error("Error in ListOrder: ", error);
       }
-    })();
+    };
+
+    fetchListOrder();
   }, [page]);
 
   const handlePageChange = (e, page) => {

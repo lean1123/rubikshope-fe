@@ -2,11 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
-import Home from "./components/home/Home";
-import Cart from "./features/cart/Cart";
-import PaymentReturn from "./features/payment/PaymentReturn";
-import Product from "./features/product/Product";
-import Profile from "./features/profile/Profile";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
   return (
@@ -14,11 +10,26 @@ function App() {
       <Header />
 
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/myAccount" element={<Profile />} />
-        <Route path="/products/*" element={<Product />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/returnOrder" element={<PaymentReturn />} />
+        <Route
+          path={AppRoutes.home.path}
+          Component={AppRoutes.home.component}
+        />
+        <Route
+          path={AppRoutes.myAccount.path}
+          Component={AppRoutes.myAccount.component}
+        />
+        <Route
+          path={AppRoutes.listProducts.path}
+          Component={AppRoutes.listProducts.component}
+        />
+        <Route
+          path={AppRoutes.cart.path}
+          Component={AppRoutes.cart.component}
+        />
+        <Route
+          path={AppRoutes.returnOrder.path}
+          Component={AppRoutes.returnOrder.component}
+        />
       </Routes>
       <Footer />
     </div>

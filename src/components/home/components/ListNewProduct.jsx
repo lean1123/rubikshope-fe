@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import ProductApi from "../../../api/admin/product/ProductApi";
+import ProductApi from "../../../api/ProductApi";
 import ProductList from "../../../features/product/components/ProductList";
 import { useNavigate } from "react-router-dom";
 

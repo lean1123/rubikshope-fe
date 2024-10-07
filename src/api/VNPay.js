@@ -1,4 +1,4 @@
-import AdminAxiosClient from "../../api/admin/AdminAxiosClient";
+import AdminAxiosClient from "./AdminAxiosClient";
 
 class VNPayApi {
   getVNPayReturnUrl = () => {

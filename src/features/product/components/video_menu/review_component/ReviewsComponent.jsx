@@ -12,9 +12,10 @@ import {
 import { enqueueSnackbar } from "notistack";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
-import ReviewApi from "../../../../../api/user/ReviewApi";
+import ReviewApi from "../../../../../api/ReviewApi";
 import ListReview from "./ListReview";
 import ReviewForm from "./ReviewForm";
+import ReviewService from "../../../../../services/ReviewService";
 
 ReviewsComponent.propTypes = {
   product: PropTypes.object,
@@ -66,18 +67,32 @@ function ReviewsComponent({ product = {} }) {
   };
 
   useEffect(() => {
-    (async () => {
-      try {
-        const response = await ReviewApi.getAllReviewOfProduct(params);
+    // (async () => {
+    //   try {
+    //     const response = await ReviewApi.getAllReviewOfProduct(params);
 
-        const { content, totalPages } = response.data;
+    //     const { content, totalPages } = response.data;
+
+    //     setListReview(content);
+    //     setTotalPage(totalPages);
+    //   } catch (error) {
+    //     console.log("Error in load review component: ", error);
+    //   }
+    // })();
+
+    const fetchListReview = async () => {
+      try {
+        const { content, totalPages } =
+          await ReviewService.getListReviewPaginationByProduct(params);
 
         setListReview(content);
         setTotalPage(totalPages);
       } catch (error) {
-        console.log("Error in load review component: ", error);
+        console.error("Error in fetchListReview: ", error);
       }
-    })();
+    };
+
+    fetchListReview();
   }, [params]);
 
   return (

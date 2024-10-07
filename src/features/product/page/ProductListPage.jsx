@@ -10,7 +10,7 @@ import { makeStyles } from "@mui/styles";
 import queryString from "query-string";
 import React, { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import ProductApi from "../../../api/admin/product/ProductApi";
+import ProductService from "../../../services/ProductService";
 import FilterViewer from "../components/FilterViewer";
 import ProductFilters from "../components/ProductFilter";
 import ProductList from "../components/ProductList";
@@ -95,23 +95,38 @@ function ProductListPage() {
   };
 
   useEffect(() => {
-    (async () => {
+    // (async () => {
+    //   try {
+    //     const productApi = new ProductApi();
+
+    //     const { data } = await productApi.searchPagination(queryParams);
+
+    //     console.log("Params: ", queryParams);
+
+    //     console.log("Data", data);
+
+    //     setProducts(data.data.content);
+    //     setTotalElements(data.data.totalElements);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    //   setLoading(false);
+    // })();
+
+    const fetchProductList = async () => {
       try {
-        const productApi = new ProductApi();
+        const { content, totalPages } =
+          await ProductService.getListProductPagination(queryParams);
 
-        const { data } = await productApi.searchPagination(queryParams);
-
-        console.log("Params: ", queryParams);
-
-        console.log("Data", data);
-
-        setProducts(data.data.content);
-        setTotalElements(data.data.totalElements);
+        setProducts(content);
+        setTotalElements(totalPages);
       } catch (error) {
-        console.log(error);
+        console.error("Error in fetchProductList", error);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
-    })();
+    };
+    fetchProductList();
   }, [queryParams]);
 
   // Synch filter on url

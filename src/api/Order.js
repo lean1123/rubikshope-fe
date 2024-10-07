@@ -1,4 +1,4 @@
-import AdminAxiosClient from "../../admin/AdminAxiosClient";
+import AdminAxiosClient from "./AdminAxiosClient";
 
 class OrderApi {
   saveOrder = (orderData) => {

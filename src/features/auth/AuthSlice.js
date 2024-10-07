@@ -1,34 +1,39 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import AuthApi from "../../api/admin/auth/AuthApi";
+import UserService from "../../services/UserService";
 
-// async action -> register
 export const register = createAsyncThunk("/register", async (payload) => {
-  const authApi = new AuthApi();
-  const data = await authApi.register(payload);
+  // const authApi = new AuthApi();
+  // const data = await authApi.register(payload);
 
-  const newUser = data.data;
+  // const newUser = data.data;
 
-  // Save data to localstorage
-  localStorage.setItem("jwt", data.token);
-  localStorage.setItem("user", JSON.stringify(newUser));
+  // localStorage.setItem("jwt", data.token);
+  // localStorage.setItem("user", JSON.stringify(newUser));
 
-  return newUser;
+  // return newUser;
+
+  try {
+    const { user, token } = await UserService.register(payload);
+    localStorage.setItem("jwt", token);
+    localStorage.setItem("user", JSON.stringify(user));
+    return user;
+  } catch (error) {
+    console.error("Error in register", error);
+  }
 });
 
-// async action -> register
 export const login = createAsyncThunk("/login", async (payload) => {
-  const authApi = new AuthApi();
-  const response = await authApi.login(payload);
+  try {
+    const { user, token } = await UserService.login(payload);
 
-  const newUser = await response.data.data;
+    console.log("user", user);
 
-  const systemtoken = await response.data.token;
-
-  // Save data to localstorage
-  localStorage.setItem("jwt", JSON.stringify(systemtoken));
-  localStorage.setItem("user", JSON.stringify(newUser));
-
-  return newUser;
+    localStorage.setItem("jwt", token);
+    localStorage.setItem("user", JSON.stringify(user));
+    return user;
+  } catch (error) {
+    console.error("Error in login", error);
+  }
 });
 
 const AuthSlice = createSlice({

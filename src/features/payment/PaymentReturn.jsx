@@ -9,11 +9,11 @@ import {
 import queryString from "query-string";
 import React, { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
-import PaymentApi from "../../api/user/PaymentApi";
 
-import { makeStyles } from "@mui/styles";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
+import { makeStyles } from "@mui/styles";
+import PaymentService from "../../services/PaymentService";
 
 const theme = createTheme();
 
@@ -41,20 +41,33 @@ function PaymentReturn() {
   }, [location.search]);
 
   useEffect(() => {
-    (async () => {
+    // (async () => {
+    //   try {
+    //     const paymentMatched = await PaymentApi.getPaymentByOrderID(
+    //       queryParams.orderID
+    //     );
+
+    //     if (paymentMatched) {
+    //       setPaymentInfo(paymentMatched.data);
+    //     }
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // })();
+
+    const fetchPaymentInfo = async () => {
       try {
-        const paymentMatched = await PaymentApi.getPaymentByOrderID(
+        const payment = await PaymentService.getPaymentByOrder(
           queryParams.orderID
         );
-
-        if (paymentMatched) {
-          setPaymentInfo(paymentMatched.data);
-        }
+        setPaymentInfo(payment);
       } catch (error) {
-        console.log(error);
+        console.error("Error in PaymentReturn: ", error);
       }
-    })();
-  }, [queryParams]);
+    };
+
+    fetchPaymentInfo();
+  }, [queryParams?.orderID]);
 
   return (
     <Box minHeight="400px" p={theme.spacing(32)}>

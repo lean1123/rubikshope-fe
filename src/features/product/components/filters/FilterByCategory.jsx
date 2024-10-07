@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import { Box, Typography, createTheme } from "@mui/material";
-import CategoryApi from "../../../../api/admin/category/CategoryApi";
 import { makeStyles } from "@mui/styles";
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+import CategoryService from "../../../../services/CategoryService";
 
 FilterByCategory.propTypes = {
   onChange: PropTypes.func,
@@ -38,19 +38,17 @@ function FilterByCategory({ onChange }) {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    (async () => {
+    const fetchListCategories = async () => {
       try {
-        const categoryApi = new CategoryApi();
+        const categories = await CategoryService.getListCategories();
 
-        const { data } = await categoryApi.getAll();
-
-        console.log(data);
-
-        setCategories(data);
+        setCategories(categories);
       } catch (error) {
-        console.log("Fail by fetch Category api", error);
+        console.error("Error in FilterByCategory: ", error);
       }
-    })();
+    };
+
+    fetchListCategories();
   }, []);
 
   const handleCategoryClick = (category) => {
