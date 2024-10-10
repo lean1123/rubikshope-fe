@@ -1,9 +1,11 @@
 import axios from "axios";
+import UserService from "../services/UserService";
 
 const getToken = async () => {
-  // const token = JSON.parse(localStorage.getItem("jwt"));
   const token = localStorage.getItem("jwt");
-  return token ? token : null;
+  console.log("Token in get token: ", token);
+
+  return token ? token : "";
 };
 
 const AdminAxiosClient = axios.create({
@@ -13,21 +15,13 @@ const AdminAxiosClient = axios.create({
   },
 });
 
-const refreshToken = async (token) => {
-  const url = "http://localhost:3333/auth/refresh";
-  return axios.post(url, JSON.stringify({ token }), {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-};
-
 AdminAxiosClient.interceptors.request.use(
   async (config) => {
     const publicEndpoints = [
       /user\/login/,
       /user\/register/,
       /auth\/refresh/,
+      /auth\/introspect/,
       /admin\/products/,
       /admin\/categories/,
     ];
@@ -43,10 +37,34 @@ AdminAxiosClient.interceptors.request.use(
       return config;
     }
 
-    const token = await getToken();
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    let token = await getToken();
+    let isValidToken = false;
+
+    try {
+      isValidToken = await UserService.checkExpiredToken(token);
+      console.log("check token result: ", isValidToken);
+    } catch (error) {
+      console.error("Error during token introspection", error);
     }
+
+    if (isValidToken === true) {
+      console.log("Token valid!");
+    } else {
+      try {
+        const refreshedToken = await UserService.refreshToken(token);
+        console.log("refreshedToken in admin axios: ", refreshedToken);
+        if (refreshedToken.length === 0) {
+          throw new Error("No token returned"); //Token is empty
+        }
+        token = refreshedToken;
+        localStorage.setItem("jwt", token);
+      } catch (error) {
+        console.error("Error during token refresh request", error);
+      }
+    }
+
+    config.headers.Authorization = `Bearer ${token}`;
+
     return config;
   },
   (error) => {
@@ -59,38 +77,38 @@ AdminAxiosClient.interceptors.response.use(
     return response;
   },
   async (error) => {
-    const originalRequest = error.config;
+    // const originalRequest = error.config;
 
-    if (
-      error.response &&
-      error.response.status === 401 &&
-      !originalRequest._retry
-    ) {
-      originalRequest._retry = true;
+    // if (
+    //   error.response &&
+    //   error.response.status === 401 &&
+    //   !originalRequest._retry
+    // ) {
+    //   originalRequest._retry = true;
 
-      try {
-        const refreshTokenValue = await getToken();
-        if (refreshTokenValue) {
-          const response = await refreshToken(refreshTokenValue);
+    //   try {
+    //     const refreshTokenValue = await getToken();
+    //     if (refreshTokenValue) {
+    //       const response = await refreshToken(refreshTokenValue);
 
-          console.log("Response in admin axios: ", response);
+    //       console.log("Response in admin axios: ", response);
 
-          const newToken = response.data.token;
+    //       const newToken = response.data.token;
 
-          localStorage.setItem("jwt", JSON.stringify(newToken));
+    //       localStorage.setItem("jwt", JSON.stringify(newToken));
 
-          originalRequest.headers.Authorization = `Bearer ${newToken}`;
+    //       originalRequest.headers.Authorization = `Bearer ${newToken}`;
 
-          return AdminAxiosClient(originalRequest);
-        }
+    //       return AdminAxiosClient(originalRequest);
+    //     }
 
-        console.log("No refresh token returned");
-        return Promise.reject(error);
-      } catch (err) {
-        console.error("Error during token refresh request", err);
-        return Promise.reject(err);
-      }
-    }
+    //     console.log("No refresh token returned");
+    //     return Promise.reject(error);
+    //   } catch (err) {
+    //     console.error("Error during token refresh request", err);
+    //     return Promise.reject(err);
+    //   }
+    // }
 
     if (error.response) {
       console.error("Response error", error.response);

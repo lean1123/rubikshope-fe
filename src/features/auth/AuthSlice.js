@@ -2,16 +2,6 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import UserService from "../../services/UserService";
 
 export const register = createAsyncThunk("/register", async (payload) => {
-  // const authApi = new AuthApi();
-  // const data = await authApi.register(payload);
-
-  // const newUser = data.data;
-
-  // localStorage.setItem("jwt", data.token);
-  // localStorage.setItem("user", JSON.stringify(newUser));
-
-  // return newUser;
-
   try {
     const { user, token } = await UserService.register(payload);
     localStorage.setItem("jwt", token);

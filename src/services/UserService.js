@@ -39,6 +39,26 @@ const UserService = {
       return null;
     }
   },
+
+  checkExpiredToken: async (token) => {
+    try {
+      const response = await UserApi.introspectToken(token);
+      return response?.data?.valid;
+    } catch (error) {
+      console.error("Error in UserService", error);
+      return false;
+    }
+  },
+
+  refreshToken: async (token) => {
+    try {
+      const response = await UserApi.refreshToken(token);
+      return response?.data?.token || "";
+    } catch (error) {
+      console.error("Error in UserService", error);
+      return "";
+    }
+  },
 };
 
 export default UserService;
